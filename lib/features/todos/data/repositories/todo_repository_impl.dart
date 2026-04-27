@@ -1,15 +1,20 @@
-import '../models/todo.dart';
-import '../services/todo_repository.dart';
-import '../utils/todo_remote_datasource.dart';
-import '../screens/todo_local_datasource.dart';
+import '../../domain/entities/todo.dart';
+import '../../domain/repositories/todo_repository.dart';
+import '../datasources/todo_remote_datasource.dart';
+import '../datasources/todo_local_datasource.dart';
 
 class TodoRepositoryImpl implements TodoRepository {
-  final TodoRemoteDataSource _remote = TodoRemoteDataSource();
-  final TodoLocalDataSource _local = TodoLocalDataSource();
+  final TodoRemoteDataSource _remote;
+  final TodoLocalDataSource _local;
+
+  TodoRepositoryImpl({
+    TodoRemoteDataSource? remote,
+    TodoLocalDataSource? local,
+  })  : _remote = remote ?? TodoRemoteDataSource(),
+        _local = local ?? TodoLocalDataSource();
 
   @override
   Future<TodoFetchResult> fetchTodos({bool forceRefresh = false}) async {
-    // neste projeto didático, sempre busca remoto e salva lastSync local
     final models = await _remote.fetchTodos();
     final now = DateTime.now();
     await _local.saveLastSync(now);

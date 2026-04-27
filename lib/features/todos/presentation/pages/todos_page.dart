@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../widgets/add_todo_dialog.dart';
 import '../viewmodels/todo_viewmodel.dart';
+import '../widgets/add_todo_dialog.dart';
 
 class TodosPage extends StatefulWidget {
   const TodosPage({super.key});
@@ -15,7 +15,6 @@ class _TodosPageState extends State<TodosPage> {
   @override
   void initState() {
     super.initState();
-    // Carrega ao abrir
     WidgetsBinding.instance.addPostFrameCallback((_) {
       context.read<TodoViewModel>().loadTodos();
     });
